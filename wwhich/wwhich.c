@@ -97,10 +97,22 @@ static char *get_next_path(void)
 
 static char if_path(char *path)
 {
+	char *str_malloc;
+	WIN32_FIND_DATA date_info;
+	HANDLE FILE_HANDLE;
 	if (path == NULL) 
 		return PATH_NOFIND;
 	else {
-		
+		str_malloc = (char *)malloc(strlen(path) + 5);
+		memcpy(str_malloc, path, strlen(path) + 1);
+		strcat(str_malloc, ".exe");
+		FILE_HANDLE = FindFirstFile(str_malloc, &WIN32_FIND_DATA);
+		free(str_malloc);
+		if (INVALID_HANDLE_VALUE = INVALID_HANDLE_VALUE) {
+			return 	PATH_NOFIND;
+		} else {
+			return PATH_FIND;
+		}
 	}
 
 }
