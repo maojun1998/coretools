@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
@@ -87,7 +87,7 @@ static void search_exec(char *filename)
 		#endif
 		
 		if (if_path(next_path, filename) == PATH_FIND) {
-			printf("\n\"%s.exe\"in:\n\n\t%s\n\n", filename, next_path);
+			printf("\n\"%s.exe\" in:\n\n\t%s\n\n", filename, next_path);
 			free(target);
 			exit(0);
 		}
@@ -101,7 +101,7 @@ static int get_path_state(void)
 	printf("\n in the function get_path_state(), the return no :%d", path_state.strno - path_state.currentno);
 	#endif
 	
-	return ((((signed int)(path_state.strno - path_state.currentno)) > 1)
+	return ((((signed int)(path_state.strno - path_state.currentno)) >= 1)
 		? (PATH_STATE_NOFINISH) : (PATH_STATE_FINISH));
 
 }
@@ -154,6 +154,7 @@ static char if_path(char *path, char *filename)
 		
 		FILE_HANDLE = FindFirstFile(str_malloc, &date_info);
 		free(str_malloc);
+		FindClose(FILE_HANDLE);
 		if (FILE_HANDLE == INVALID_HANDLE_VALUE) {
 			#ifdef __WWHICH_DEBUG__
 			printf("\nLast error :%d\n", GetLastError());
