@@ -3,9 +3,15 @@
 #include <string.h>
 #include <windows.h>
 
-#ifdef __WWHICH_DEBUG__	//wwhich debug macro.
-							// nothing here, just for introdution the debug macro.
-#endif 					//wwhich debug macro end.
+/*
+ * wwhich debug macro.
+ * nothing here, just for introdution the debug macro.
+ * wwhich debug macro end.
+ */
+
+#ifdef __WWHICH_DEBUG__	// WHICH DEBUG MACRO.
+#endif			// WHICH DEBUG MACRO END.
+
 
 const static char information[] = 
 "wwhich(0.01) is windows which for search the execable file in ENV var.\n"
@@ -19,18 +25,28 @@ const static char error_message[] =
 
 
 static struct _PATH_STATE {
-	char *pointer;
-	unsigned int pathsate;
-	unsigned int currentno;
-	unsigned int strno;
+	char *pointer;			// a pointer point to the next need work strings. 
+	unsigned int pathsate;		// the the state of the full strings env.
+	unsigned int currentno;		// the current strings number.
+	unsigned int strno;		// the all strings number.
 } path_state;
 
+/*
+ * the path state sysbols, see 
+ * strcut _PATH_STATE's member pathsate.
+ */
 #define PATH_STATE_FINISH 	(0x01)
 #define PATH_STATE_NOFINISH	(0x00)
 
-#define PATH_FIND				(0x00)
-#define PATH_NOFIND			(0x01)
-#define MAX_PATH_LENG			(0xff)
+
+/*
+ * the return status by funtion
+ * if_path, if return PATH_FIND
+ * the path is the right one.
+ */
+#define PATH_FIND		(0x00)
+#define PATH_NOFIND		(0x01)
+#define MAX_PATH_LENG		(0xff)
 
 static char *target;
 static void search_exec(char *filename);
@@ -95,6 +111,7 @@ static void search_exec(char *filename)
 	printf("No scuh File \"%s.exe\"\n", filename);
 }
 
+// return the path states.
 static int get_path_state(void)
 {
 	#ifdef __WWHICH_DEBUG__
@@ -106,6 +123,7 @@ static int get_path_state(void)
 
 }
 
+// get the path strings env.
 static char *get_next_path(void)
 {
 	int counter;
@@ -125,6 +143,7 @@ static char *get_next_path(void)
 	return path_state.pointer;
 }
 
+// if or ifnot the path is right one.
 static char if_path(char *path, char *filename)
 {
 	char *str_malloc;
@@ -167,6 +186,7 @@ static char if_path(char *path, char *filename)
 
 }
 
+//init the state of the path_state struct.
 static void init_path_state(void)
 {
 	int counter;
