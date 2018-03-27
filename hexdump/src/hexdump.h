@@ -18,7 +18,7 @@
 #define ASSIC_A  		0x41			/* ASSIC CODE A */
 #define ASSIC_F  		0x46			/* ASSIC CODE F */
 
-#define ASSIC_START 	0x20 		/* ASSIC CODE start */
+#define ASSIC_START 	0x20 			/* ASSIC CODE start */
 #define ASSIC_OVER	0x7E			/* ASSIC CODE over  */
 
 /*
@@ -34,11 +34,11 @@
  *						The static var define.
  **********************************************************************/
  
-static char 		mem_buffer[BUFFER_SIZE];	/* we just use the 512 bytes mem to read one time */
+static char 			mem_buffer[BUFFER_SIZE];		/* we just use the 512 bytes mem to read one time */
 
-static char			Flag;						/* see  Macro FLAG_EOF and FLAG_COT */
+static char			Flag;							/* see  Macro FLAG_EOF and FLAG_COT */
 
-static unsigned int page_n;						/* the page_n init var is -1, it's the number of page.*/
+static unsigned int 	page_n;						/* the page_n init var is -1, it's the number of page.*/
 
 /**********************************************************************
  *					The internal function interface.
@@ -46,8 +46,8 @@ static unsigned int page_n;						/* the page_n init var is -1, it's the number o
  
 static void 			show_buffer			(unsigned int block_no);
 static unsigned int  	read_file_to_buffer	(FILE *fp);
-static void				show_line			(unsigned int line_n, unsigned int rest_n);    
-static void 			show_line_no		(unsigned int line_n);
-static void 			show_hex			(unsigned char number);
+static void			show_line				(unsigned int line_n, unsigned int rest_n);    
+static void 			show_line_no			(unsigned int line_n);
+static void 			show_hex				(unsigned char number);
 
 #endif 	//__HEXDUMP_H__

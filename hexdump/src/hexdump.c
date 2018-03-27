@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
+#include <windows.h>		/*include the windows.h means that this just support the win32*/
 #include "hexdump.h"
 
 const char *copyright = "\nThe program was written by Hacking.\nReport bug or have a good ideal,please sent Email \
@@ -13,6 +15,35 @@ int main(int argc, char *argv[])
     FILE 			*fp;
 	int 			get_key;
 	unsigned int 	read_byte_n;
+	HANDLE 		hStdin;						// STDIN HANDLE
+	DWORD 			fdwOldMode, fdwMode, cRead;	// fdwOldMode old consoles mode. fdwMode new mode. cRead number read.
+	char 			chBuffer[256]; 
+	
+	hStdin = GetStdHandle(STD_INPUT_HANDLE);
+	/*
+	 *	get the std in handle.
+	 */
+	if (hStdin == INVALID_HANDLE_VALUE) {
+		
+		printf("Get hStdin error.\n");
+		return 0;
+	}
+	/*
+	 *	get the console mode.
+	 */
+	if (! GetConsoleMode(hStdin, &fdwOldMode))  {
+		printf("GetConsoleMode error.\n");
+		return 0;
+	}
+	fdwMode = fdwOldMode & (~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT));
+	/*
+	 *	change the console mode make that we don't need with the enter line than the writefile return .
+	 *	So, we just enter one key, the console will detect it.
+	 */
+	if (! SetConsoleMode(hStdin, fdwMode)) {
+		printf("SetConsoleMode error.\n");
+		return 0;
+    }
 	
     if (argc < 2) {
         printf("%s", copyright);
@@ -20,7 +51,7 @@ int main(int argc, char *argv[])
     }
 
     if ((fp = fopen(argv[1], "rb+")) == NULL) {
-        printf("No such file \"%s\" or open fail.\n", argv[1]);
+        printf("%s open fail : %s\n", argv[1], strerror(errno));
         return 0;
     }
 	page_n = -1;
@@ -34,20 +65,26 @@ int main(int argc, char *argv[])
 		if (Flag == FLAG_EOF)
 			break;
 		
-		printf("\n\tPlease input any key to contine or put q to quit.\n");
-		
-		get_key = getchar();		/* if the get_key equl 'q', we exit the function */
+		printf("\n\tPlease input any key to contine or put q to quit.\n\n");
+		/*
+		 *	one key enter will return.
+		 */
+		if (! ReadFile(hStdin, chBuffer, 1, &cRead, NULL)) {
+				printf("ReadFile KEY buffer fail.\n");
+		}
+		get_key = chBuffer[0];
+		//get_key = getchar();		/* if the get_key equl 'q', we exit the function */
 		
 		fflush(stdin);
 	}
-	
+	SetConsoleMode(hStdin, fdwOldMode);
 	fclose(fp);
     return 0;
 }
 
 /*
 **
-**		@In 		FILE *fp		:   File's HANDLE.
+**		@In 		FILE *fp			:   File's HANDLE.
 **		@Return		u_int read_n	:	The number of bytes we read.
 **
 **		@Function Describe 			: 	We one time just read 512 bytes to mem_buffer, if the number is not equl to 512,
