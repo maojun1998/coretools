@@ -18,6 +18,9 @@ int main(int argc, char *argv[])
 	HANDLE 		hStdin;						// STDIN HANDLE
 	DWORD 			fdwOldMode, fdwMode, cRead;	// fdwOldMode old consoles mode. fdwMode new mode. cRead number read.
 	char 			chBuffer[256]; 
+	CONSOLE_CURSOR_INFO	console_cursor_info;
+	console_cursor_info.dwSize = 20;
+	console_cursor_info.bVisible= 0;
 	
 	hStdin = GetStdHandle(STD_INPUT_HANDLE);
 	/*
@@ -57,6 +60,11 @@ int main(int argc, char *argv[])
 	page_n = -1;
 	get_key = 0;
 	
+	SetConsoleCursorInfo(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			&console_cursor_info
+	);
+	
 	while (get_key != 'q') {
 		
 		read_byte_n = read_file_to_buffer(fp);
@@ -65,7 +73,7 @@ int main(int argc, char *argv[])
 		if (Flag == FLAG_EOF)
 			break;
 		
-		printf("\n\tPlease input any key to contine or put q to quit.\n\n");
+		printf("\n\tThe q KEY For Quit, Else Other Any KEY To Continue...\n\n");
 		/*
 		 *	one key enter will return.
 		 */
@@ -77,6 +85,10 @@ int main(int argc, char *argv[])
 		
 		fflush(stdin);
 	}
+	/*
+	 *	Set the console mode reback to the old mode.
+	 *
+	 */
 	SetConsoleMode(hStdin, fdwOldMode);
 	fclose(fp);
     return 0;
