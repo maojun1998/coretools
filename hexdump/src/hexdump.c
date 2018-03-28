@@ -89,6 +89,11 @@ int main(int argc, char *argv[])
 	 *	Set the console mode reback to the old mode.
 	 *
 	 */
+	console_cursor_info.bVisible= 1;
+	SetConsoleCursorInfo(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			&console_cursor_info
+	);
 	SetConsoleMode(hStdin, fdwOldMode);
 	fclose(fp);
     return 0;
