@@ -6,8 +6,13 @@
 #include <windows.h>		/*include the windows.h means that this just support the win32*/
 #include "hexdump.h"
 
-const char *copyright = "\nThe program was written by Hacking.\nReport bug or have a good ideal,please sent Email \
-to maojun@whatsmath.cn.\nYou can use the source code anytime.\n\n";
+const char *copyright =
+"HEXDUMP(1.0) stable version. "
+"HEXDUMP is a hexdump viewer for the File.\n"
+"Copyright (C) HACKING.  All rights reserved.\n"
+"\nThe program was written by Hacking.\nReport bug or have a good ideal,please sent Email"
+"to maojun@whatsmath.cn.\nYou can use the source code anytime.\n"
+"Source code address: https://github.com/maojun1998/coretools\n\n";
 
 
 int main(int argc, char *argv[])
