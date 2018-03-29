@@ -1,1 +1,1 @@
-cl /MD /02 hexdump.c
+cl /MD /O2 hexdump.c
