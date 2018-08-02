@@ -3,8 +3,8 @@
 #include <string.h>
 
 
-#define BUFFER_SIZE	33
-#define ASSIC_ZERO	'0'
+#define BUFFER_SIZE	    33
+#define ASSIC_ZERO	    '0'
 #define ASSIC_ONE		'1'
 #define EXEC_FAIL		0
 #define EXEC_OK			1

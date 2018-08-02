@@ -1,0 +1,10 @@
+HEXSET
+======
+hexset is tools for edit file as hex nummer.
+
+cmmond args
+===========
+* hexset -config [conf filename] -o [filename]
+    if filename is exit. print error message. else creat file.
+* hexset -f [filename] -b addr -e number
+    filename is a file that need edit. -b is begin from, -e is the hexnumber.

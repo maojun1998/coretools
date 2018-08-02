@@ -9,8 +9,8 @@
  * wwhich debug macro end.
  */
 
-#ifdef __WWHICH_DEBUG__	// WHICH DEBUG MACRO.
-#endif			// WHICH DEBUG MACRO END.
+#ifdef __WWHICH_DEBUG__	    // WHICH DEBUG MACRO.
+#endif						// WHICH DEBUG MACRO END.
 
 
 const static char information[] = 
@@ -25,10 +25,10 @@ const static char error_message[] =
 
 
 static struct _PATH_STATE {
-	char *pointer;			// a pointer point to the next need work strings. 
+	char *pointer;				// a pointer point to the next need work strings. 
 	unsigned int pathsate;		// the the state of the full strings env.
 	unsigned int currentno;		// the current strings number.
-	unsigned int strno;		// the all strings number.
+	unsigned int strno;			// the all strings number.
 } path_state;
 
 /*
@@ -44,13 +44,13 @@ static struct _PATH_STATE {
  * if_path, if return PATH_FIND
  * the path is the right one.
  */
-#define PATH_FIND		(0x00)
-#define PATH_NOFIND		(0x01)
+#define PATH_FIND			(0x00)
+#define PATH_NOFIND			(0x01)
 #define MAX_PATH_LENG		(0xff)
 
 static char *target;
 static void search_exec(char *filename);
-static int get_path_state(void);
+static int  get_path_state(void);
 static char *get_next_path(void);
 static char if_path(char *path, char *filename);
 static void init_path_state();
@@ -64,9 +64,10 @@ int main(int argc, char *argv[])
 		} else {
 			path = getenv("PATH");
 			
-			#ifdef __WWHICH_DEBUG__	//wwhich debug macro.
-			printf("\n%s\n\n", path);
-			#endif 
+#ifdef __WWHICH_DEBUG__	//wwhich debug macro.
+
+				printf("\n%s\n\n", path);
+#endif 
 			
 			if ((target = (char *)malloc(strlen(path) + 1)) == NULL) {
 				printf("malloc target error.\n");
@@ -75,9 +76,10 @@ int main(int argc, char *argv[])
 			memcpy((char *)target , path, strlen(path) + 1);
 			
 			
-			#ifdef __WWHICH_DEBUG__	//wwhich debug macro.
-			printf("\n%s\n", target);
-			#endif 
+#ifdef __WWHICH_DEBUG__	//wwhich debug macro.
+
+				printf("\n%s\n", target);
+#endif 
 			
 			
 			init_path_state();
@@ -98,9 +100,10 @@ static void search_exec(char *filename)
 		
 		next_path = get_next_path();
 		
-		#ifdef __WWHICH_DEBUG__
+#ifdef __WWHICH_DEBUG__
+
 		printf("\nin the fun search_exec()next_path:\n%s\n\n", next_path);
-		#endif
+#endif
 		
 		if (if_path(next_path, filename) == PATH_FIND) {
 			printf("\n\"%s.exe\" in:\n\n\t%s\n\n", filename, next_path);
@@ -114,9 +117,10 @@ static void search_exec(char *filename)
 // return the path states.
 static int get_path_state(void)
 {
-	#ifdef __WWHICH_DEBUG__
+#ifdef __WWHICH_DEBUG__
+
 	printf("\n in the function get_path_state(), the return no :%d", path_state.strno - path_state.currentno);
-	#endif
+#endif
 	
 	return ((((signed int)(path_state.strno - path_state.currentno)) >= 1)
 		? (PATH_STATE_NOFINISH) : (PATH_STATE_FINISH));
@@ -157,27 +161,29 @@ static char if_path(char *path, char *filename)
 		if (str_malloc[strlen(str_malloc) - 1] != '\\') {
 			strcat(str_malloc, "\\");
 			
-			#ifdef __WWHICH_DEBUG__
+#ifdef __WWHICH_DEBUG__
+
 			printf("\nadd \\ sysbol the str:%s\n", str_malloc);
-			#endif
+#endif
 			
 		}
 		strcat(str_malloc, filename);
 		strcat(str_malloc, ".exe");
 		
 		
-		#ifdef __WWHICH_DEBUG__
+#ifdef __WWHICH_DEBUG__
+
 		printf("\nint if_path,str_malloc: %s\n\n", str_malloc);
-		#endif 
+#endif 
 		
 		
 		FILE_HANDLE = FindFirstFile(str_malloc, &date_info);
 		free(str_malloc);
 		FindClose(FILE_HANDLE);
 		if (FILE_HANDLE == INVALID_HANDLE_VALUE) {
-			#ifdef __WWHICH_DEBUG__
+#ifdef __WWHICH_DEBUG__
 			printf("\nLast error :%d\n", GetLastError());
-			#endif
+#endif
 			return 	PATH_NOFIND;
 		} else {
 			return PATH_FIND;
@@ -193,9 +199,10 @@ static void init_path_state(void)
 	int len;
 	len = strlen(target);
 	
-	#ifdef __WWHICH_DEBUG__
+#ifdef __WWHICH_DEBUG__
+
 	printf("int init_path_state.\n");
-	#endif
+#endif
 	
 	path_state.strno = 0;
 	path_state.currentno = 0;
@@ -207,9 +214,11 @@ static void init_path_state(void)
 			path_state.strno++;
 			target[counter] = '\0';
 		}
-		#ifdef __WWHICH_DEBUG__
-		printf("%c", target[counter]);
-		#endif
+#ifdef __WWHICH_DEBUG__
+
+	printf("%c", target[counter]);
+	
+#endif
 	}
 	#ifdef __WWHICH_DEBUG__
 	printf("\nout init_path_state, strno:%d\n", path_state.strno);
